@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms'; // استيراد FormsModule
 import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 import { ConfirmPaymentComponent } from '../confirm-payment/confirm-payment.component';
 import { CartsService } from '../../services/carts.service';
+import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
   imports: [
@@ -28,7 +29,10 @@ export class PaymentMethodsComponent {
   saveCard: boolean = false;
   showConfirmPayment = false;
 
-  constructor(private cartService: CartsService) {}
+  constructor(
+    private cartService: CartsService,
+    private checkoutService: CheckoutService
+  ) {}
 
   toggleConfirmPayment() {
     this.showConfirmPayment = true;
@@ -36,5 +40,16 @@ export class PaymentMethodsComponent {
 
   setPaymentMethod(method: string) {
     this.selectedPayment = method;
+  }
+
+  proceedToStripe() {
+    this.checkoutService.createCheckoutSession().subscribe({
+      next: res => {
+        window.location.href = res.url;
+      },
+      error: err => {
+        console.log('Checkout error', err);
+      },
+    });
   }
 }
