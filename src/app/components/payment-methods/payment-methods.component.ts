@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms'; // استيراد FormsModule
 import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 import { ConfirmPaymentComponent } from '../confirm-payment/confirm-payment.component';
 import { CartsService } from '../../services/carts.service';
+import { Cart, CartItem } from '../../models/cart.model';
 import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
@@ -20,7 +21,14 @@ import { CheckoutService } from '../../services/checkout.service';
   styleUrls: ['./payment-methods.component.css'],
 })
 export class PaymentMethodsComponent {
-  selectedPayment: string = 'cash'; //
+  cart: Cart = {};
+  cartItems: CartItem[] = [];
+  totalItems = 0;
+  subtotal = 0;
+  discount = 0;
+  shipping = 0;
+  total = 0;
+  selectedPayment: string = 'cash';
 
   firstName: string = '';
   cardNumber: string = '';
@@ -41,6 +49,27 @@ export class PaymentMethodsComponent {
   setPaymentMethod(method: string) {
     this.selectedPayment = method;
   }
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.cartService.getCart(token);
+      this.cartService.cart$.subscribe(cart => {
+        this.cart = cart;
+        this.processCart();
+      });
+    }
+  }
+  processCart() {
+    const products = Object.values(this.cart);
+    this.cartItems = products;
+    this.totalItems = products.length;
+    this.subtotal = products.reduce((acc, item) => {
+      return acc + +(item.price || 0) * +(item.quantity || 0);
+    }, 0);
+
+    this.discount = this.subtotal >= 200 ? 50 : 0;
+    this.shipping = this.subtotal > 0 ? 0 : 0;
+    this.total = this.subtotal - this.discount + this.shipping;
 
   proceedToStripe() {
     this.checkoutService.createCheckoutSession().subscribe({
