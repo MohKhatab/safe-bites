@@ -35,7 +35,11 @@ export class OrderSummaryComponent {
   processCart() {
     const products = Object.values(this.cart);
     this.cartItems = products;
-    this.totalItems = products.length;
+    this.totalItems = products.reduce(
+      (acc, item) => acc + +(item.quantity || 0),
+      0
+    );
+
     this.subtotal = products.reduce((acc, item) => {
       return acc + +(item.price || 0) * +(item.quantity || 0);
     }, 0);

@@ -68,4 +68,3 @@ export class PaymentMethodsComponent {
     this.total = this.subtotal - this.discount + this.shipping;
   }
 }
-
