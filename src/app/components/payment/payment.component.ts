@@ -8,6 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { Cart, CartItem } from '../../models/cart.model';
+import { Product } from '../../models/product.model';
+import { CartsService } from '../../services/carts.service';
 @Component({
   selector: 'app-payment',
   imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
@@ -16,9 +19,17 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class PaymentComponent {
   paymentForm: FormGroup;
+  cart: Cart = {};
+  cartItems: CartItem[] = [];
+  totalItems = 0;
+  subtotal = 0;
+  discount = 0;
+  shipping = 0;
+  total = 0;
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private cartService: CartsService
   ) {
     this.paymentForm = this.fb.group({
       phone: ['', [Validators.required, Validators.pattern('^01[0-9]{9}$')]],
@@ -75,4 +86,27 @@ export class PaymentComponent {
       control.markAsTouched();
     }
   }
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.cartService.getCart(token);
+      this.cartService.cart$.subscribe(cart => {
+        this.cart = cart;
+        this.processCart();
+      });
+    }
+  }
+  processCart() {
+    const products = Object.values(this.cart);
+    this.cartItems = products;
+    this.totalItems = products.length;
+    this.subtotal = products.reduce((acc, item) => {
+      return acc + +(item.price || 0) * +(item.quantity || 0);
+    }, 0);
+
+    this.discount = this.subtotal >= 200 ? 50 : 0;
+    this.shipping = this.subtotal > 0 ? 0 : 0;
+    this.total = this.subtotal - this.discount + this.shipping;
+  }
 }
+
