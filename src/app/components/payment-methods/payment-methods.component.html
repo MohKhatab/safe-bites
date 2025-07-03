@@ -1,4 +1,5 @@
-<div class="grid grid-cols-12 md:gap-x-6 xl:gap-x-6 gap-y-8 lg-px-24 px-10 mt-16">
+<div
+  class="grid grid-cols-12 md:gap-x-6 xl:gap-x-6 gap-y-8 lg-px-24 px-10 mt-16">
   <!-- Payment Section (8 columns) -->
 
   <div class="payment col-span-12 lg:col-span-7 space-y-8">
@@ -6,17 +7,29 @@
       <h2 class="text-xl font-bold">Select Payment Method</h2>
 
       <!-- Cash -->
-      <div class="border-[#C5C4C4] p-2 border-2 rounded-lg flex items-center gap-2">
-        <input type="radio" name="payment" [(ngModel)]="selectedPayment" value="cash" />
+      <div
+        class="border-[#C5C4C4] p-2 border-2 rounded-lg flex items-center gap-2">
+        <input
+          type="radio"
+          name="payment"
+          [(ngModel)]="selectedPayment"
+          value="cash" />
         <i class="fa-solid fa-money-bills text-[#1B8057]"></i>
-        <span class="text-lg sm:font-semibold font-medium">Cash on Delivery</span>
+        <span class="text-lg sm:font-semibold font-medium"
+          >Cash on Delivery</span
+        >
       </div>
 
       <!-- Visa -->
-      <div class="border-[#C5C4C4] p-2 border-2 rounded-lg flex items-center gap-2">
-        <input type="radio" name="payment" [(ngModel)]="selectedPayment" value="visa" />
-        <i class="fa-brands fa-cc-visa text-[#1B8057]"></i><span
-          class="text-lg sm:font-semibold font-medium">VISA</span>
+      <div
+        class="border-[#C5C4C4] p-2 border-2 rounded-lg flex items-center gap-2">
+        <input
+          type="radio"
+          name="payment"
+          [(ngModel)]="selectedPayment"
+          value="visa" />
+        <i class="fa-brands fa-cc-visa text-[#1B8057]"></i
+        ><span class="text-lg sm:font-semibold font-medium">VISA</span>
       </div>
       <div
         class="border-[#C5C4C4] rounded-lg px-2 border-2 items-center space-y-4 overflow-hidden transition-all duration-500 ease-in-out pt-2"
@@ -24,9 +37,16 @@
           'h-12': selectedPayment !== 'card',
           'h-auto': selectedPayment === 'card',
         }">
-        <div class="flex items-center gap-2 h-10 cursor-pointer" (click)="selectedPayment = 'card'">
-          <input type="radio" name="payment" [(ngModel)]="selectedPayment" value="card" />
-          <i class="fa-solid fa-credit-card text-[#1B8057]"></i><span
+        <div
+          class="flex items-center gap-2 h-10 cursor-pointer"
+          (click)="selectedPayment = 'card'">
+          <input
+            type="radio"
+            name="payment"
+            [(ngModel)]="selectedPayment"
+            value="card" />
+          <i class="fa-solid fa-credit-card text-[#1B8057]"></i
+          ><span
             class="flex items-center gap-2 text-lg sm:font-semibold font-medium">
             Add credit/debit card
           </span>
@@ -35,13 +55,21 @@
         <div *ngIf="selectedPayment === 'card'" class="space-y-7 md:px-20">
           <!-- Card Holder -->
           <div class="relative">
-            <input type="text" id="FirstName"
+            <input
+              type="text"
+              id="FirstName"
               class="peer w-full p-3 rounded-md border-[#135C3E] border-2 focus:border-[#135C3E] focus:outline-none placeholder-transparent"
-              placeholder="FirstName" autocomplete="off" [(ngModel)]="firstName" name="firstName"
-              #firstNameModel="ngModel" required />
-            <label for="FirstName"
-              class="absolute left-3 top-3 text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-[-10px] peer-focus:text-sm not-peer-placeholder-shown:top-[-10px] not-peer-placeholder-shown:text-sm bg-[#F5F8F5] px-1 transition-all duration-300 ease-in-out">Full
-              Name</label>
+              placeholder="FirstName"
+              autocomplete="off"
+              [(ngModel)]="firstName"
+              name="firstName"
+              #firstNameModel="ngModel"
+              required />
+            <label
+              for="FirstName"
+              class="absolute left-3 top-3 text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-[-10px] peer-focus:text-sm not-peer-placeholder-shown:top-[-10px] not-peer-placeholder-shown:text-sm bg-[#F5F8F5] px-1 transition-all duration-300 ease-in-out"
+              >Full Name</label
+            >
             <div class="min-h-[5px] text-sm text-[#a40f0f] pl-1">
               <!-- <ng-container *ngIf="firstNameModel.invalid && firstNameModel.touched">
                 <i class="fa-solid fa-circle-exclamation pr-2"></i>Required
@@ -52,10 +80,18 @@
 
           <!-- Card Number -->
           <div class="relative">
-            <input id="card-number" type="number" placeholder="Card Number"
+            <input
+              id="card-number"
+              type="number"
+              placeholder="Card Number"
               class="peer w-full border-2 rounded-lg h-12 p-3 border-[#135C3E] focus:outline-none focus:border-[#135C3E] placeholder-transparent"
-              autocomplete="off" [(ngModel)]="cardNumber" name="cardNumber" #cardNumberModel="ngModel" required />
-            <label for="card-number"
+              autocomplete="off"
+              [(ngModel)]="cardNumber"
+              name="cardNumber"
+              #cardNumberModel="ngModel"
+              required />
+            <label
+              for="card-number"
               class="absolute left-3 top-3 text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-[-10px] peer-focus:text-sm not-peer-placeholder-shown:top-[-10px] not-peer-placeholder-shown:text-sm not-peer-placeholder-shown:text-[#365D1C] bg-[#F5F8F5] px-1 transition-all duration-300 ease-in-out">
               Card Number
             </label>
@@ -71,10 +107,17 @@
           <div class="sm:flex sm:flex-row sm:gap-4 gap-7 flex flex-col">
             <!-- Expiry Date -->
             <div class="relative sm:flex-1">
-              <input id="expiry-date" type="date"
+              <input
+                id="expiry-date"
+                type="date"
                 class="peer w-full border-2 rounded-lg h-12 p-3 border-[#135C3E] focus:outline-none focus:border-[#135C3E] placeholder-transparent"
-                autocomplete="off" [(ngModel)]="expiryDate" name="expiryDate" #expiryDateModel="ngModel" required />
-              <label for="expiry-date"
+                autocomplete="off"
+                [(ngModel)]="expiryDate"
+                name="expiryDate"
+                #expiryDateModel="ngModel"
+                required />
+              <label
+                for="expiry-date"
                 class="absolute left-3 top-3 text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-[-10px] peer-focus:text-sm not-peer-placeholder-shown:top-[-10px] not-peer-placeholder-shown:text-sm bg-[#F5F8F5] px-1 transition-all duration-300 ease-in-out">
                 Expiry Date
               </label>
@@ -88,10 +131,18 @@
 
             <!-- CVV -->
             <div class="relative flex-1">
-              <input id="cvv" type="number" placeholder="CVV"
+              <input
+                id="cvv"
+                type="number"
+                placeholder="CVV"
                 class="peer w-full border-2 rounded-lg h-12 p-3 border-[#135C3E] focus:outline-none focus:border-[#135C3E] placeholder-transparent"
-                autocomplete="off" [(ngModel)]="cvv" name="cvv" #cvvModel="ngModel" required />
-              <label for="cvv"
+                autocomplete="off"
+                [(ngModel)]="cvv"
+                name="cvv"
+                #cvvModel="ngModel"
+                required />
+              <label
+                for="cvv"
                 class="absolute left-3 top-3 text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-10px] peer-focus:text-sm peer-focus:text-[# text-gray-500] not-peer-placeholder-shown:top-[-10px] not-peer-placeholder-shown:text-sm not-peer-placeholder-shown:text-[#365D1C] bg-[#F5F8F5] px-1 transition-all duration-300 ease-in-out">
                 CVV
               </label>
@@ -111,7 +162,8 @@
           </div>
 
           <!-- Add Card Button -->
-          <button (click)="onProceedToPayment()"
+          <button
+            (click)="onProceedToPayment()"
             class="mb-2 md:mt-4 text-white py-2 md:w-1/4 w-1/2 bg-[#1B8057] rounded-md hover:bg-green-700 transition text-center cursor-pointer">
             Add Card
           </button>

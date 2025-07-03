@@ -53,4 +53,3 @@ export class OrderSummaryComponent {
     this.showConfirmPayment = true;
   }
 }
-

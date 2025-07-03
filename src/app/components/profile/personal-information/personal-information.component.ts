@@ -80,6 +80,7 @@ export class PersonalInformationComponent implements OnInit {
             this.toastr.error('User data is empty', 'Error');
             return;
           }
+          this.userData = userData;
           if (userData.user) {
             this.personalInformation.patchValue({
               firstName: userData.user.firstName || '',
@@ -92,6 +93,8 @@ export class PersonalInformationComponent implements OnInit {
               'images/default-profile-image.webp';
           }
           this.personalInformation.disable();
+          this.personalInformation.get('email')?.disable();
+          this.personalInformation.get('inputImage')?.disable();
         },
         error: error => {
           console.error('Error fetching user data:', error);
@@ -105,16 +108,21 @@ export class PersonalInformationComponent implements OnInit {
     this.isEditing = !this.isEditing;
 
     if (this.isEditing) {
-      this.personalInformation.enable();
+      this.personalInformation.get('firstName')?.enable();
+      this.personalInformation.get('lastName')?.enable();
+      this.personalInformation.get('phone')?.enable();
       this.personalInformation.get('inputImage')?.enable();
     } else {
       this.personalInformation.disable();
-      this.personalInformation.get('inputImage')?.disable();
+      this.personalInformation.get('email')?.disable();
     }
   }
 
   isFieldInvalid(field: string): boolean {
     const control = this.personalInformation.get(field);
+    if (field === 'email' && control?.disabled) {
+      return false;
+    }
     return control?.invalid && control?.touched ? true : false;
   }
 
@@ -176,8 +184,19 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.personalInformation.invalid) {
-      this.personalInformation.markAllAsTouched();
+    const updatedData = this.personalInformation.getRawValue();
+    delete updatedData.email;
+    delete updatedData.inputImage;
+
+    this.personalInformation.get('firstName')?.markAsTouched();
+    this.personalInformation.get('lastName')?.markAsTouched();
+    this.personalInformation.get('phone')?.markAsTouched();
+
+    if (
+      this.personalInformation.get('firstName')?.invalid ||
+      this.personalInformation.get('lastName')?.invalid ||
+      this.personalInformation.get('phone')?.invalid
+    ) {
       this.toastr.error('Please fill in all fields correctly.', 'Error');
       return;
     }
@@ -187,9 +206,6 @@ export class PersonalInformationComponent implements OnInit {
       this.toastr.error('Authentication token is missing', 'Error');
       return;
     }
-
-    const updatedData = this.personalInformation.getRawValue();
-    delete updatedData.inputImage;
 
     const currentImageId = this.userData?.user?.image?._id;
     if (this.imageId) {
@@ -212,6 +228,7 @@ export class PersonalInformationComponent implements OnInit {
         this.toastr.success('User data updated successfully', 'Success');
         this.isEditing = false;
         this.personalInformation.disable();
+        this.personalInformation.get('email')?.disable();
         this.userImage =
           userUpdatedData.user?.image?.imageUrl ||
           previousUserImage ||
