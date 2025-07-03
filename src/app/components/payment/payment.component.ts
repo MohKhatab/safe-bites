@@ -71,15 +71,28 @@ export class PaymentComponent {
   get Email() {
     return this.paymentForm.get('Email');
   }
+
   submitForm() {
     if (this.paymentForm.valid) {
+      const shippingAddress = {
+        city: this.paymentForm.get('City')?.value,
+        street: this.paymentForm.get('Street')?.value,
+        phone: this.paymentForm.get('phone')?.value,
+        firstName: this.paymentForm.get('FirstName')?.value,
+        lastName: this.paymentForm.get('LastName')?.value,
+        email: this.paymentForm.get('Email')?.value,
+      };
+      localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
+
       this.router.navigate(['/payment-methods']);
-      console.log('Form Submitted:', this.paymentForm.value);
+      console.log(
+        'Payment Form Submitted. Shipping Address saved:',
+        shippingAddress
+      );
     } else {
       this.paymentForm.markAllAsTouched();
     }
   }
-
   checkInputValue(field: string) {
     const control = this.paymentForm.get(field);
     if (control?.value) {
@@ -93,6 +106,18 @@ export class PaymentComponent {
       this.cartService.cart$.subscribe(cart => {
         this.cart = cart;
         this.processCart();
+      });
+    }
+    const storedShippingAddress = localStorage.getItem('shippingAddress');
+    if (storedShippingAddress) {
+      const parsedAddress = JSON.parse(storedShippingAddress);
+      this.paymentForm.patchValue({
+        phone: parsedAddress.phone,
+        FirstName: parsedAddress.firstName,
+        LastName: parsedAddress.lastName,
+        Street: parsedAddress.street,
+        City: parsedAddress.city,
+        Email: parsedAddress.email,
       });
     }
   }
@@ -113,4 +138,3 @@ export class PaymentComponent {
     this.total = this.subtotal - this.discount + this.shipping;
   }
 }
-

@@ -17,6 +17,20 @@ export class OrderService {
     });
   }
 
+  createOrder(orderData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('User not authenticated');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(`${this.baseUrl}`, orderData, { headers });
+  }
+
   getUserOrders(): Observable<any> {
     return this.http.get(`${this.baseUrl}/my-orders`, {
       headers: this.getHeaders(),
