@@ -98,9 +98,9 @@ export class ProductsComponent {
   private setPageSizeByScreenWidth() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 768) {
-      this.pageSize = 6;
-    } else {
       this.pageSize = 3;
+    } else {
+      this.pageSize = 9;
     }
   }
 

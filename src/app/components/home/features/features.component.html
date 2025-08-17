@@ -31,7 +31,7 @@
           <p>${{ product.price }}</p>
           <i
             class="fa-solid fa-cart-shopping text-3xl cursor-pointer"
-            (click)="handleAddToCart(product._id)"></i>
+            (click)="handleAddToCart(product._id, $event)"></i>
         </div>
       </div>
     }

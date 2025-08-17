@@ -42,12 +42,12 @@ export class FeaturesComponent implements OnInit {
       });
   }
 
-  handleAddToCart(productId: string) {
+  handleAddToCart(productId: string, event: Event) {
+    event.stopPropagation();
     if (this.token) {
       this.cartsService.addToCart(productId, this.token);
-      this.toaster.success('Product added to cart successfully', 'Success');
     } else {
-      this.toaster.success('Faild to add product to cart', 'Error');
+      this.toaster.success('Failed to add product to cart', 'Error');
     }
   }
 }

@@ -26,6 +26,8 @@ export class PasswordManagerComponent {
   userData: any;
   isPasswordUpdated = false;
   isGoogleAuthUser = false;
+  passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"|,.<>/?`~]).{8,}$/;
   constructor(
     private toastr: ToastrService,
     private fb: FormBuilder,
@@ -34,7 +36,14 @@ export class PasswordManagerComponent {
   ) {
     this.passwordInformation = this.fb.group({
       password: ['', []],
-      newPassword: ['', [Validators.required]],
+      newPassword: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(this.passwordPattern),
+        ],
+      ],
       confirmPassword: ['', Validators.required],
     });
   }
@@ -101,6 +110,9 @@ export class PasswordManagerComponent {
         'New password and confirm password do not match',
         'Error'
       );
+      this.passwordInformation
+        .get('confirmPassword')
+        ?.setErrors({ mismatch: true });
       return;
     }
 

@@ -247,22 +247,14 @@
           autocomplete="off" />
         <div class="h-1 flex items-center">
           <div
-            *ngIf="emailRequired || emailvalidation"
+            *ngIf="emailRequired || emailvalidation || emailTaken"
             class="text-sm text-[#a40f0f] pl-1 flex items-center gap-1">
             <i class="fa-solid fa-circle-exclamation"></i>
             <span *ngIf="emailRequired">This field is required</span>
             <span *ngIf="emailvalidation"
               >Please enter a valid email address</span
             >
-          </div>
-          <div
-            *ngIf="emailTaken"
-            class="text-sm text-[#a40f0f] pl-1 flex items-center gap-1">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <span
-              >The email you entered is already in use. Please try logging
-              in.</span
-            >
+            <span *ngIf="emailTaken">Already Exist, Please Login</span>
           </div>
         </div>
       </div>
@@ -378,3 +370,10 @@
     </div>
   </form>
 </div>
+
+<!-- <div
+            *ngIf="emailTaken"
+            class="text-sm text-[#a40f0f] pl-1 flex items-center gap-1">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            
+          </div> -->

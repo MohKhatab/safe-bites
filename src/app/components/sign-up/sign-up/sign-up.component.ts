@@ -66,7 +66,7 @@ export class SignUpComponent {
       error: err => {
         console.error('Registration failed', err);
         console.log('Error message:', err.error?.message);
-        if (err.error === 'Already Exist, Please Login') {
+        if (err.error?.error === 'Already Exist, Please Login') {
           this.myform.controls.email.setErrors({ emailTaken: true });
         }
       },

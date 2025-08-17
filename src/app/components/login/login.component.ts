@@ -54,12 +54,15 @@ export class LoginComponent {
     window.addEventListener(
       'message',
       event => {
-        if (event.origin !== 'http://localhost:8282') return; // تأكد إن الرسالة جاية من الـ backend
+        if (event.origin !== 'http://localhost:8282') return;
         if (event.data?.token) {
           localStorage.setItem('token', event.data.token);
           const decodedToken = this.decodeJWT(event.data.token);
-          localStorage.setItem('firstName', decodedToken.firstName);
-          this.router.navigate(['']);
+          if (decodedToken) {
+            localStorage.setItem('firstName', decodedToken.firstName);
+            localStorage.setItem('userId', decodedToken.id);
+            this.router.navigate(['']);
+          }
         }
       },
       false
@@ -149,7 +152,9 @@ export class LoginComponent {
             .getUserById(decodedToken.id, data.token)
             .subscribe(response => {
               userData = response.user;
-              localStorage.setItem('userId', userData._id);
+              if (userData && userData._id) {
+                localStorage.setItem('userId', userData._id);
+              }
 
               if (userData.image && userData.image.imageUrl)
                 localStorage.setItem(
@@ -203,9 +208,14 @@ export class LoginComponent {
   }
 
   decodeJWT(token: string): any {
-    const payload = token.split('.')[1];
-    const decodedPayload = atob(payload);
-    return JSON.parse(decodedPayload);
+    try {
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload);
+      return JSON.parse(decodedPayload);
+    } catch (error) {
+      console.error('Error decoding token', error);
+      return null;
+    }
   }
   //////////////////////
   togglePassword() {

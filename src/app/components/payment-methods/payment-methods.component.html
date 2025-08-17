@@ -71,11 +71,10 @@
               >Full Name</label
             >
             <div class="min-h-[5px] text-sm text-[#a40f0f] pl-1">
-              <ng-container
-                *ngIf="firstNameModel.invalid && firstNameModel.touched">
+              <!-- <ng-container *ngIf="firstNameModel.invalid && firstNameModel.touched">
                 <i class="fa-solid fa-circle-exclamation pr-2"></i>Required
                 field
-              </ng-container>
+              </ng-container> -->
             </div>
           </div>
 
@@ -97,11 +96,10 @@
               Card Number
             </label>
             <div class="min-h-[5px] text-sm text-[#a40f0f] pl-1">
-              <ng-container
-                *ngIf="cardNumberModel.invalid && cardNumberModel.touched">
+              <!-- <ng-container *ngIf="cardNumberModel.invalid && cardNumberModel.touched">
                 <i class="fa-solid fa-circle-exclamation pr-2"></i>Required
                 field
-              </ng-container>
+              </ng-container> -->
             </div>
           </div>
 
@@ -124,11 +122,10 @@
                 Expiry Date
               </label>
               <div class="min-h-[5px] text-sm text-[#a40f0f] pl-1">
-                <ng-container
-                  *ngIf="expiryDateModel.invalid && expiryDateModel.touched">
+                <!-- <ng-container *ngIf="expiryDateModel.invalid && expiryDateModel.touched">
                   <i class="fa-solid fa-circle-exclamation pr-2"></i>Required
                   field
-                </ng-container>
+                </ng-container> -->
               </div>
             </div>
 
@@ -150,10 +147,9 @@
                 CVV
               </label>
               <div class="min-h-[5px] text-sm text-[#a40f0f] pl-1">
-                <ng-container *ngIf="cvvModel.invalid && cvvModel.touched">
-                  <i class="fa-solid fa-circle-exclamation pr-2"></i
-                  ><span>Required field</span>
-                </ng-container>
+                <!-- <ng-container *ngIf="cvvModel.invalid && cvvModel.touched">
+                  <i class="fa-solid fa-circle-exclamation pr-2"></i><span>Required field</span>
+                </ng-container> -->
               </div>
             </div>
           </div>
@@ -167,13 +163,8 @@
 
           <!-- Add Card Button -->
           <button
-            class="mb-2 md:mt-4 text-white py-2 md:w-1/4 w-1/2 bg-[#1B8057] rounded-md hover:bg-green-700 transition text-center"
-            [disabled]="
-              !firstNameModel.valid ||
-              !cardNumberModel.valid ||
-              !expiryDateModel.valid ||
-              !cvvModel.valid
-            ">
+            (click)="onProceedToPayment()"
+            class="mb-2 md:mt-4 text-white py-2 md:w-1/4 w-1/2 bg-[#1B8057] rounded-md hover:bg-green-700 transition text-center cursor-pointer">
             Add Card
           </button>
         </div>
@@ -188,3 +179,10 @@
     <app-order-summary></app-order-summary>
   </div>
 </div>
+
+<!-- [disabled]="
+              !firstNameModel.valid ||
+              !cardNumberModel.valid ||
+              !expiryDateModel.valid ||
+              !cvvModel.valid
+            " -->

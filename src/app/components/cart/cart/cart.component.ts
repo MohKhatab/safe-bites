@@ -43,63 +43,17 @@ export class CartComponent {
   }
 
   decreaseQuantity(product: any) {
+    // if (product.quantity > 1) {
+    //   const newQuantity = product.quantity - 1;
+    //   this.updateCart(product._id, newQuantity, 'decrease');
+    //   product.quantity--;
+    // }
     if (product.quantity > 1) {
-      const newQuantity = product.quantity - 1;
-      this.updateCart(product._id, newQuantity, 'decrease');
       product.quantity--;
     }
   }
   increaseQuantity(product: any) {
-    this.productService.getProductById(product._id).subscribe({
-      next: (response: any) => {
-        const availableQuantity = response.data.quantity;
-        const requestedQuantityInCart = product.quantity + 1;
-
-        if (requestedQuantityInCart > availableQuantity) {
-          this.toastr.error(
-            `The requested quantity is not available.`,
-            'error'
-          );
-        } else {
-          const newQuantityInCart = product.quantity + 1;
-          this.updateCart(product._id, newQuantityInCart, 'increase');
-          // product.quantity++;
-        }
-      },
-      error: (error: any) => {
-        console.error('Error fetching product details', error);
-        this.toastr.error(
-          'An error occurred while checking the available quantity.',
-          'error'
-        );
-      },
-    });
-  }
-
-  updateCart(
-    productId: string,
-    quantityInCart: number,
-    operation: 'increase' | 'decrease'
-  ) {
-    if (this.token && productId) {
-      this.cartService.updateCart(productId, quantityInCart, this.token);
-
-      const quantityChange = operation === 'increase' ? -1 : 1;
-      this.productService
-        .updateProductQuantity(productId, quantityChange, operation, this.token)
-        .subscribe({
-          next: (response: any) => {
-            console.log(this.cart);
-          },
-
-          error: (error: any) => {
-            this.toastr.error(
-              'An error occurred while updating the quantity in stock',
-              'error'
-            );
-          },
-        });
-    }
+    product.quantity++;
   }
 
   calculateSubTotal(product: any) {
@@ -126,7 +80,10 @@ export class CartComponent {
   }
 
   clearCart() {
-    if (this.token) this.cartService.clearCart(this.token);
+    if (this.token) {
+      this.cartService.clearCart(this.token);
+      this.toastr.success('Cleard cart successfully');
+    }
     this.showPopup = false;
   }
 
@@ -171,6 +128,34 @@ decreaseQuantity(product: any) {
 
 increaseQuantity(product: any) {
   product.quantity++;
+
+   /*
+    this.productService.getProductById(product._id).subscribe({
+      next: (response: any) => {
+        const availableQuantity = response.data.quantity;
+        const requestedQuantityInCart = product.quantity + 1;
+
+        if (requestedQuantityInCart > availableQuantity) {
+          this.toastr.error(
+            `The requested quantity is not available.`,
+            'error'
+          );
+        } else {
+          const newQuantityInCart = product.quantity + 1;
+          this.updateCart(product._id, newQuantityInCart, 'increase');
+          // product.quantity++;
+        }
+      },
+      error: (error: any) => {
+        console.error('Error fetching product details', error);
+        this.toastr.error(
+          'An error occurred while checking the available quantity.',
+          'error'
+        );
+      },
+    });
+    
+
 }
 calculateSubTotal(product: any) {
   return product.price * product.quantity;
@@ -206,3 +191,31 @@ track(index: number, product: any): any {
   return product.id;
 }
   */
+
+/*
+  updateCart(
+    productId: string,
+    quantityInCart: number,
+    operation: 'increase' | 'decrease'
+  ) {
+    if (this.token && productId) {
+      this.cartService.updateCart(productId, quantityInCart, this.token);
+
+      const quantityChange = operation === 'increase' ? -1 : 1;
+      this.productService
+        .updateProductQuantity(productId, quantityChange, operation, this.token)
+        .subscribe({
+          next: (response: any) => {
+            console.log(this.cart);
+          },
+
+          error: (error: any) => {
+            this.toastr.error(
+              'An error occurred while updating the quantity in stock',
+              'error'
+            );
+          },
+        });
+    }
+  }
+*/

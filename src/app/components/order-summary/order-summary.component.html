@@ -8,16 +8,20 @@
     <div class="col-span-2 h-[1px] bg-[#C5C4C4]"></div>
 
     <span class="font-semibold text-left">Items</span>
-    <span class="text-right text-[#121311]">4</span>
+    <span class="text-right text-[#121311]">{{ totalItems }}</span>
 
     <span class="font-semibold text-left">Sub Total</span>
-    <span class="text-right text-[#121311]">100 EGP</span>
+    <span class="text-right text-[#121311]">{{ subtotal }} EGP</span>
 
     <span class="font-semibold text-left">Shipping</span>
-    <span class="text-right text-[#121311]">Free</span>
+    <span class="text-right text-[#121311]">{{
+      shipping === 0 ? 'Free' : shipping + ' EGP'
+    }}</span>
 
     <span class="font-semibold text-left">Coupon Discount</span>
-    <span class="text-right text-red-500">-50 EGP</span>
+    <span class="text-right text-red-500">
+      {{ discount > 0 ? '-' + discount + ' EGP' : '0 EGP' }}</span
+    >
 
     <!-- Divider -->
     <div class="col-span-2 h-[1px] bg-[#C5C4C4]"></div>
@@ -26,8 +30,8 @@
     <span class="font-semibold text-lg md:text-xl text-left text-[#121311]"
       >Total</span
     >
-    <span class="text-right font-semibold text-lg md:text-xl text-[#121311]"
-      >50 EGP</span
+    <span class="text-right font-semibold text-lg md:text-xl text-[#121311]">
+      {{ total }} EGP</span
     >
   </div>
 
